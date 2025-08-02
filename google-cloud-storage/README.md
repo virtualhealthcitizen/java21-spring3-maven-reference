@@ -1,12 +1,22 @@
 # google-cloud-storage
 
-## Run the application
+## Run tests
+
+```bash
+mvn clean test \
+  -DskipTests \
+  -DPROJECT_ID=${PROJECT_ID}
+```
+
+![05_run_tests_1.gif](docs%2Fimg%2F05_run_tests_1.gif)
+
+## Run application
 
 ```bash
 cd google-cloud-storage
 ```
 
-## Set environment variables
+### Set environment variables
 
 ```bash
 export PROJECT_ID=<your-project-id>
@@ -15,6 +25,8 @@ export IMPERSONATION_TARGET=<your-service-account-email>
 export OAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token --impersonate-service-account=${IMPERSONATION_TARGET})
 export GKMS_KEY_NAME=<your-gkms-key-name>
 ```
+
+### Maven CLI
 
 ```bash
 mvn spring-boot:run \
@@ -30,23 +42,15 @@ mvn spring-boot:run \
 
 ![04_run-using-maven-cli.gif](docs%2Fimg%2F04_run-using-maven-cli.gif)
 
-## Run tests
+### Docker container
 
-```bash
-mvn clean test \
-  -DskipTests \
-  -DPROJECT_ID=${PROJECT_ID}
-```
-
-![05_run_tests_1.gif](docs%2Fimg%2F05_run_tests_1.gif)
-
-## Build image
+#### Build image
 
 ```bash
 docker build -t google-cloud-storage-ref .
 ```
 
-## Run container
+#### Run container
 
 ```bash
 docker run -p 8080:8080 \
