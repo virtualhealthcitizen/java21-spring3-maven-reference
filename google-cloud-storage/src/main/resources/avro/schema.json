@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "ExampleUploadItem",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "creationTimestamp", "type": "string" },
+    { "name": "lastUpdateTimestamp", "type": "string" },
+    { "name": "columnA", "type": "string" },
+    { "name": "columnB", "type": "string" }
+  ]
+}

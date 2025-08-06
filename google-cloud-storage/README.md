@@ -31,12 +31,13 @@ export GKMS_KEY_NAME=<your-gkms-key-name>
 ```bash
 mvn spring-boot:run \
   -Dspring-boot.run.jvmArguments="\
+-XX:+EnableDynamicAgentLoading \
 -DPROJECT_ID=$PROJECT_ID \
 -DGCS_BUCKET_NAME=$GCS_BUCKET_NAME \
 -DIMPERSONATION_TARGET=$IMPERSONATION_TARGET \
 -DOAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token \
   --impersonate-service-account=${IMPERSONATION_TARGET}) \
--DGKMS_KEY_NAME=$GKMS_KEY_NAME
+-DGKMS_KEY_NAME=$GKMS_KEY_NAME \
 "
 ```
 

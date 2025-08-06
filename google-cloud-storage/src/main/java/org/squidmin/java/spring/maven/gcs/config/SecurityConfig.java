@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.gcs;
+package org.squidmin.java.spring.maven.gcs.config;
 
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;

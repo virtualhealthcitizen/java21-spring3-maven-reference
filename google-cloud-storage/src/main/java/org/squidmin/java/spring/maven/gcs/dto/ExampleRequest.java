@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.gcs;
+package org.squidmin.java.spring.maven.gcs.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

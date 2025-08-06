@@ -138,3 +138,65 @@ gcloud storage buckets describe gs://jm_lofty-root-cmek-test
 ### `/gcs/upload` request (see Bruno collection)
 
 ![03_submit_request_1.gif](img%2F03_submit_request_1.gif)
+
+---
+
+## Notes and caveats
+
+### Does the `uploadAvro()` method allow you to download the file?
+
+The `uploadAvro()` method in the provided code snippet uploads an Avro file to a Google Cloud Storage (GCS) bucket using a Customer-Managed Encryption Key (CMEK).
+
+The `URL` returned from the `uploadAvro()` method **does allow you to download the file**, but only if you're using the returned URL directly.
+
+![avro-file-download_1.gif](..%2F..%2F..%2F..%2F09_videos%2Fcoding%2Favro-file-download_1.gif)
+
+The method
+
+```java
+return storage.signURL(blobInfo, 5, TimeUnit.MINUTES, Storage.SignUrlOption.withV4Signature());
+```
+
+Creates a V4 signed URL that is:
+
+- Time-limited (5 minutes)
+- Authenticated using impersonated credentials
+- Grants temporary access to download the uploaded object
+
+So you can use this URL in a browser or HTTP client (e.g., `curl`, `wget`, Postman) to download the Avro file without writing a separate `downloadAvro()` method.
+
+
+
+This signed URL grants GET access to the object only.
+No additional decryption step is needed when downloading – GCS will automatically decrypt the file using the CMEK (Customer-Managed Encryption Key) if the IAM roles and key access are properly configured.
+This signed URL bypasses the need for your users to authenticate, making it ideal for temporary download links.
+
+### Decryption
+
+The client does not need to perform any additional steps for encryption or decryption when using the signed URL returned by the `uploadAvro()` method, assuming the CMEK is configured correctly on the server side.
+When a file is uploaded with a CMEK (Customer-Managed Encryption Key), Google Cloud automatically decrypts it upon download if the key and IAM permissions are valid.
+A V4 signed URL authorizes access without requiring the client to authenticate or have IAM roles.
+This includes access to encrypted files, as long as:
+
+- the signing credentials (your service account) have **Cloud KMS CryptoKey Decrypter** permission
+- the key is still valid and enabled
+
+Encryption happens server-side. The syntax:
+
+```java
+Storage.BlobTargetOption.kmsKeyName(gcsConfig.getGkmsKeyName())
+```
+
+ensures CMEK is used during the upload.
+Server-side CMEK usage can be verified by viewing the Javadocs in the source code for the `Storage` class [here](https://github.com/googleapis/java-storage/blob/main/google-cloud-storage/src/main/java/com/google/cloud/storage/Storage.java#L1546):
+
+![07_kms-key-name-method.png](img%2F07_kms-key-name-method.png)
+
+#### What you need to ensure (on the server-side)
+
+- The impersonated service account:
+  - Has access to the GCS bucket (`roles/storage.objectAdmin` or similar)
+  - Has access to the CMEK (`roles/cloudkms.cryptoKeyEncrypterDecrypter`)
+- The CMEK is:
+  - Enabled
+  - Not rotated in a way that breaks access

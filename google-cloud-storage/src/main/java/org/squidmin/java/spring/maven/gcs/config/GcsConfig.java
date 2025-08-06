@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.gcs;
+package org.squidmin.java.spring.maven.gcs.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.gcs;
+package org.squidmin.java.spring.maven.gcs.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -24,6 +24,7 @@ EXPOSE 8080
 # Run with JVM arguments from env vars
 ENTRYPOINT ["sh", "-c", "\
 exec java \
+-XX:+EnableDynamicAgentLoading \
 -DPROJECT_ID=$PROJECT_ID \
 -DGCS_BUCKET_NAME=$GCS_BUCKET_NAME \
 -DIMPERSONATION_TARGET=$IMPERSONATION_TARGET \

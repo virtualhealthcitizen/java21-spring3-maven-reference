@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.gcs;
+package org.squidmin.java.spring.maven.gcs.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.squidmin.java.spring.maven.gcs.service.GcsService;
+import org.squidmin.java.spring.maven.gcs.dto.ExampleRequest;
 
 import java.io.IOException;
 import java.net.URL;
