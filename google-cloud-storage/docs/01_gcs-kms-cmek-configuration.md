@@ -149,7 +149,9 @@ The `uploadAvro()` method in the provided code snippet uploads an Avro file to a
 
 The `URL` returned from the `uploadAvro()` method **does allow you to download the file**, but only if you're using the returned URL directly.
 
-![avro-file-download_1.gif](..%2F..%2F..%2F..%2F09_videos%2Fcoding%2Favro-file-download_1.gif)
+![10_avro_download_file_1.gif](..%2F..%2F..%2Fgcp-ace-labs%2F04_introduction-to-computing-in-google-cloud%2Fimg%2F10_avro_download_file_1.gif)
+
+![11_avro_file_upload_and_download_1.gif](..%2F..%2F..%2Fgcp-ace-labs%2F04_introduction-to-computing-in-google-cloud%2Fimg%2F11_avro_file_upload_and_download_1.gif)
 
 The method
 

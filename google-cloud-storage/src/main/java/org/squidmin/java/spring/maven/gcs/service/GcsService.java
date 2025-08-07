@@ -56,6 +56,18 @@ public class GcsService {
         return storage.signUrl(blobInfo, 5, TimeUnit.MINUTES, Storage.SignUrlOption.withV4Signature());
     }
 
+    public URL downloadAvro(String filename) throws IOException {
+        Storage storage = getStorageInstance();
+
+        BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(gcsConfig.getBucketName(), filename)).build();
+
+        return storage.signUrl(
+            blobInfo,
+            5, TimeUnit.MINUTES,
+            Storage.SignUrlOption.withV4Signature()
+        );
+    }
+
     Storage getStorageInstance() throws IOException {
         GoogleCredentials userCreds = GoogleCredentials.getApplicationDefault()
             .createScoped("https://www.googleapis.com/auth/cloud-platform");

@@ -1,11 +1,10 @@
 package org.squidmin.java.spring.maven.gcs.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.squidmin.java.spring.maven.gcs.dto.ExampleResponse;
 import org.squidmin.java.spring.maven.gcs.service.GcsService;
 import org.squidmin.java.spring.maven.gcs.dto.ExampleRequest;
 
@@ -27,10 +26,17 @@ public class GcsFileUploadController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> query(@RequestBody ExampleRequest request) throws IOException {
+    public ResponseEntity<ExampleResponse> query(@RequestBody ExampleRequest request) throws IOException {
         URL url = gcsService.uploadAvro(request.getFilename(), request);
-        return ResponseEntity.ok(url);
+        return ResponseEntity.ok(ExampleResponse.builder().url(url).build());
+    }
 
+    @GetMapping("/download")
+    public ResponseEntity<ExampleResponse> downloadFile(@RequestParam String filename) throws IOException {
+        URL url = gcsService.downloadAvro(filename);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+            .body(ExampleResponse.builder().url(url).build());
     }
 
 }
