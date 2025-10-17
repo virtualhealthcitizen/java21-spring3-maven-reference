@@ -143,12 +143,6 @@ gcloud storage buckets describe gs://jm_lofty-root-cmek-test
 
 ## Notes and caveats
 
-### Does the `uploadAvro()` method allow you to download the file?
-
-The `uploadAvro()` method in the provided code snippet uploads an Avro file to a Google Cloud Storage (GCS) bucket using a Customer-Managed Encryption Key (CMEK).
-
-The `URL` returned from the `uploadAvro()` method **does allow you to download the file**, but only if you're using the returned URL directly.
-
 ![11_avro_file_upload_and_download_1.gif](img%2F11_avro_file_upload_and_download_1.gif)
 
 The method
