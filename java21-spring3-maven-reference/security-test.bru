@@ -1,0 +1,28 @@
+meta {
+  name: /security-test
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:8080/security-test
+  body: none
+  auth: basic
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:basic {
+  username: superadmin
+  password: superadmin
+}
+
+script:post-response {
+  console.log(res.body);
+}
+
+settings {
+  encodeUrl: false
+}

@@ -1,0 +1,28 @@
+meta {
+  name: /whoami
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/security-test/whoami
+  body: none
+  auth: basic
+}
+
+headers {
+  : 
+}
+
+auth:basic {
+  username: superadmin
+  password: superadmin
+}
+
+script:post-response {
+  console.log(res.body);
+}
+
+settings {
+  encodeUrl: false
+}

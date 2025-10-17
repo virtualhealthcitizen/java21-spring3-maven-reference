@@ -1,0 +1,15 @@
+meta {
+  name: /session/clear
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/session/clear
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

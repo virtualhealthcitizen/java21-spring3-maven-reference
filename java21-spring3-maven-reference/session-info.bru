@@ -1,0 +1,19 @@
+meta {
+  name: /session/info
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8080/session/info
+  body: none
+  auth: inherit
+}
+
+headers {
+  Cookie: JSESSIONID=sadf
+}
+
+settings {
+  encodeUrl: true
+}

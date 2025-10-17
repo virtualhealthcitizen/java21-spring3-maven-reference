@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "java21-spring3-maven-reference",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
