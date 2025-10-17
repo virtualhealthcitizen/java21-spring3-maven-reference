@@ -1,0 +1,19 @@
+meta {
+  name: /placeholder
+  type: http
+  seq: 10
+}
+
+get {
+  url: http://localhost:8080/cloud-sql/placeholder
+  body: none
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+settings {
+  encodeUrl: true
+}
