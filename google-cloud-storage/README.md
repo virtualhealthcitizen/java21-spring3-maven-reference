@@ -41,7 +41,7 @@ mvn spring-boot:run \
 "
 ```
 
-![04_run-using-maven-cli.gif](docs%2Fimg%2F04_run-using-maven-cli.gif)
+![Run using Maven CLI](docs%2Fimg%2F04_run-using-maven-cli.gif)
 
 ### Docker container
 
@@ -65,4 +65,4 @@ docker run -p 8080:8080 \
   google-cloud-storage-ref
 ```
 
-![06_run_docker_container_1.gif](docs%2Fimg%2F06_run_docker_container_1.gif)
+![Run Docker container](docs%2Fimg%2F06_run_docker_container_1.gif)

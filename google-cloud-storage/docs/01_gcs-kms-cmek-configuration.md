@@ -149,9 +149,7 @@ The `uploadAvro()` method in the provided code snippet uploads an Avro file to a
 
 The `URL` returned from the `uploadAvro()` method **does allow you to download the file**, but only if you're using the returned URL directly.
 
-![10_avro_download_file_1.gif](..%2F..%2F..%2Fgcp-ace-labs%2F04_introduction-to-computing-in-google-cloud%2Fimg%2F10_avro_download_file_1.gif)
-
-![11_avro_file_upload_and_download_1.gif](..%2F..%2F..%2Fgcp-ace-labs%2F04_introduction-to-computing-in-google-cloud%2Fimg%2F11_avro_file_upload_and_download_1.gif)
+![11_avro_file_upload_and_download_1.gif](img%2F11_avro_file_upload_and_download_1.gif)
 
 The method
 
@@ -166,8 +164,6 @@ Creates a V4 signed URL that is:
 - Grants temporary access to download the uploaded object
 
 So you can use this URL in a browser or HTTP client (e.g., `curl`, `wget`, Postman) to download the Avro file without writing a separate `downloadAvro()` method.
-
-
 
 This signed URL grants GET access to the object only.
 No additional decryption step is needed when downloading – GCS will automatically decrypt the file using the CMEK (Customer-Managed Encryption Key) if the IAM roles and key access are properly configured.

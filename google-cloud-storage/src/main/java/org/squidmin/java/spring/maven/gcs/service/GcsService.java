@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -43,7 +44,7 @@ public class GcsService {
 
         Storage storage = getStorageInstance();
 
-        BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(gcsConfig.getBucketName(), filename))
+        BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(gcsConfig.getBucketName(), filename + "_" + UUID.randomUUID() + ".avro"))
             .setContentType("application/avro")
             .build();
 
