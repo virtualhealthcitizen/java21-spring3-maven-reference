@@ -41,10 +41,13 @@
 
     <modules>
         <module>spring-app-boilerplate</module>
+        <module>spring-batch</module>
         <module>spring-session-in-memory</module>
         <module>spring-session-redis</module>
         <module>spring-session-jdbc-postgres</module>
         <module>google-cloud-storage</module>
+        <module>google-cloud-sql</module>
+        <module>google-cloud-pubsub</module>
     </modules>
 
     <dependencies>
@@ -114,11 +117,11 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

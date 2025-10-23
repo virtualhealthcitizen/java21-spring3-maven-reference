@@ -136,10 +136,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.squidmin.java.spring.maven.gcs.GoogleCloudSqlApplication</mainClass>
                 </configuration>
