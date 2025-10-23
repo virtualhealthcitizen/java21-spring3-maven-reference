@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.squidmin.java.spring.maven.batch.domain.NormalizedOrder;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
  *
@@ -58,6 +58,7 @@ public class OrderItemWriter {
     }
 
     @Bean
+    @Transactional
     public ItemWriter<NormalizedOrder> normalizedOrderCompositeWriter() {
         return items -> {
             jpaWriter.write(items); // Write to the database

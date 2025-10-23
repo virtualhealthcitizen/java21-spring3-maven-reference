@@ -1,13 +1,13 @@
 package org.squidmin.java.spring.maven.batch;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.*;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -171,8 +171,7 @@ class NormalizeOrdersJobIT {
      * Test wiring for SpringBatchTest
      */
     static class TestSupport {
-//        @Bean
-//        JobLauncherTestUtils jobLauncherTestUtils() { return new JobLauncherTestUtils(); }
+
     }
 
 }
