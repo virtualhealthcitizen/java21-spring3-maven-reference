@@ -21,3 +21,9 @@ spring:
   test:
     database:
       replace: none  # Prevents Spring Boot from replacing the datasource with an in-memory database during tests
+  batch:
+    jdbc:
+      initialize-schema: always  # Ensures Spring Batch schema is created on startup
+
+#  main:
+#    allow-bean-definition-overriding: true
