@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: spring-batch
+  test:
+    database:
+      replace: none # Prevents Spring Boot from replacing the datasource with an in-memory database during tests
+  datasource:
+    url: jdbc:postgresql://localhost:5432/session_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always  # Ensures schema.sql runs on startup (use 'never' in production)
+      platform: postgres # Prevents Hibernate from overriding the jsonb data type with varchar data type.
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

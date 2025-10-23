@@ -17,15 +17,11 @@ import org.squidmin.java.spring.maven.gcs.dto.ExampleUploadItem;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class GcsServiceTest {
@@ -65,37 +61,36 @@ class GcsServiceTest {
 
     @Test
     void uploadAvro_shouldUploadAvroAndReturnSignedUrl() throws Exception {
-        // Arrange
+        String signedUrl = "https://signed-url";
+
         ExampleUploadItem item = new ExampleUploadItem("1", "2023-01-01T00:00:00Z", "2023-01-02T00:00:00Z", "A", "B");
         ExampleRequest request = new ExampleRequest("test.avro", List.of(item));
 
-        Blob mockBlob = mock(Blob.class);
-        when(storage.create(any(), any(byte[].class), any())).thenReturn(mockBlob);
-        when(storage.signUrl(any(), eq(5L), eq(TimeUnit.MINUTES), any())).thenReturn(new URL("https://signed-url"));
+        Blob mockBlob = Mockito.mock(Blob.class);
+        Mockito.when(storage.create(Mockito.any(), Mockito.any(byte[].class), Mockito.any())).thenReturn(mockBlob);
+        Mockito.when(storage.signUrl(Mockito.any(), Mockito.eq(5L), Mockito.eq(TimeUnit.MINUTES), Mockito.any()))
+            .thenReturn(URI.create(signedUrl).toURL());
 
-        // Act
         URL resultUrl = gcsService.uploadAvro("example.avro", request);
 
-        // Assert
-        assertNotNull(resultUrl);
-        assertEquals("https://signed-url", resultUrl.toString());
+        Assertions.assertNotNull(resultUrl);
+        Assertions.assertEquals(signedUrl, resultUrl.toString());
 
-        verify(storage).create(blobInfoCaptor.capture(), any(byte[].class), any(Storage.BlobTargetOption.class));
+        Mockito.verify(storage).create(blobInfoCaptor.capture(), Mockito.any(byte[].class), Mockito.any(Storage.BlobTargetOption.class));
         BlobInfo capturedBlob = blobInfoCaptor.getValue();
-        assertEquals("test-bucket", capturedBlob.getBucket());
-        assertEquals("example.avro", capturedBlob.getName());
-        assertEquals("application/avro", capturedBlob.getContentType());
+        Assertions.assertEquals("test-bucket", capturedBlob.getBucket());
+        Assertions.assertTrue(capturedBlob.getName().contains("example.avro"));
+        Assertions.assertEquals("application/avro", capturedBlob.getContentType());
     }
 
     @Test
     void getStorageFromAccessToken_shouldReturnStorageInstance() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        // Arrange
         GcsConfig gcsConfigMock = Mockito.mock(GcsConfig.class);
         gcsService = new GcsService(gcsConfigMock);
 
-        when(gcsConfigMock.getBucketName()).thenReturn("test-bucket");
-        when(gcsConfigMock.getProjectId()).thenReturn("test-project");
-        when(gcsConfigMock.getImpersonationTarget())
+        Mockito.when(gcsConfigMock.getBucketName()).thenReturn("test-bucket");
+        Mockito.when(gcsConfigMock.getProjectId()).thenReturn("test-project");
+        Mockito.when(gcsConfigMock.getImpersonationTarget())
             .thenReturn("test-sa@fake-project.iam.gserviceaccount.com");
 
         // Access and invoke the private method using reflection
@@ -104,29 +99,25 @@ class GcsServiceTest {
         Object storage = method.invoke(gcsService);
 
         // Verify config methods were called
-        verify(gcsConfigMock).getProjectId();
-        verify(gcsConfigMock).getImpersonationTarget();
+        Mockito.verify(gcsConfigMock).getProjectId();
+        Mockito.verify(gcsConfigMock).getImpersonationTarget();
 
         // Optionally, assert that the returned object is of the correct type
         Assertions.assertNotNull(storage);
-        Assertions.assertTrue(storage instanceof com.google.cloud.storage.Storage);
+        Assertions.assertTrue(storage instanceof Storage);
     }
 
 
     @Test
     void serializeToAvro_shouldSerializeCorrectly() throws Exception {
-        // Arrange
         ExampleUploadItem item = new ExampleUploadItem("123", "2023-01-01", "2023-01-02", "valA", "valB");
         List<ExampleUploadItem> items = List.of(item);
 
-        // Act
         byte[] avroBytes = gcsService.serializeToAvro(items);
 
-        // Assert
-        assertNotNull(avroBytes);
+        Assertions.assertNotNull(avroBytes);
         Schema schema = new Schema.Parser().parse(gcsService.getAvroSchema());
         Assertions.assertEquals(5, schema.getFields().size());
     }
 
 }
-

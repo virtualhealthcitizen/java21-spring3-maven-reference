@@ -10,11 +10,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.squidmin.java.spring.maven.pubsub</groupId>
-    <artifactId>google-cloud-pubsub</artifactId>
+    <groupId>org.squidmin.java.spring.maven</groupId>
+    <artifactId>spring-batch</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>google-cloud-pubsub</name>
-    <description>google-cloud-pubsub</description>
+
+    <name>spring-batch</name>
+    <description>spring-batch</description>
     <url/>
     <licenses>
         <license/>
@@ -30,15 +31,29 @@
     </scm>
 
     <properties>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <java.version>21</java.version>
+        <json-path.version>2.9.0</json-path.version>
         <grpc.version>1.72.0</grpc.version>
         <protobuf-java.version>4.30.2</protobuf-java.version>
         <spring-boot.version>3.5.4</spring-boot.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-cloud-gcp.version>4.7.2</spring-cloud-gcp.version>
         <spring-grpc.version>0.9.0</spring-grpc.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -53,8 +68,61 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Starter Data JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Starter Batch -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Hibernate -->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate.orm</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>6.3.0.Final</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.0.Final</version> <!-- Use a version compatible with Jakarta Validation API -->
+        </dependency>
+
+        <!-- Jakarta -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>6.1.0-M1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>5.0.0-M1</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Spring Cloud GCP starter (common base) -->
@@ -64,22 +132,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-core</artifactId>
+            <version>2.10.0</version>
         </dependency>
 
         <dependency>
@@ -99,21 +160,36 @@
             <dependency>
                 <groupId>com.google.cloud</groupId>
                 <artifactId>spring-cloud-gcp-dependencies</artifactId>
-                <version>4.7.2</version>
+                <version>${spring-cloud-gcp.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.7.7</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- com.jayway.jsonpath:json-path -->
+            <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${json-path.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2022.0.4</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.18.0</version>
+                <version>${commons-lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -128,7 +204,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.squidmin.java.spring.maven.pubsub.GoogleCloudPubsubApplication</mainClass>
+                    <mainClass>org.squidmin.java.spring.maven.batch.SpringBatchApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -153,8 +229,8 @@
                     <dataFile>target/jacoco.exec</dataFile>
                     <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
                     <excludes>
-                        <exclude>org/squidmin/java/spring/maven/pubsub/GoogleCloudPubsubApplication.java</exclude>
-                        <exclude>org/squidmin/java/spring/maven/pubsub/dto/**</exclude>
+                        <exclude>org/squidmin/java/spring/maven/batch/SpringBatchApplication.java</exclude>
+                        <exclude>org/squidmin/java/spring/maven/batch/dto/**</exclude>
                     </excludes>
                     <rules>
                         <rule>
