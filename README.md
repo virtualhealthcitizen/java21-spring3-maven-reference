@@ -87,6 +87,12 @@ CREATE TABLE IF NOT EXISTS SPRING_SESSION_ATTRIBUTES (
 docker logs spring-session-postgres
 ```
 
+### Run tests with Maven
+
+```bash
+mvn clean install -Dspring.profiles.active=test
+```
+
 ---
 
 ## Common Maven Commands
