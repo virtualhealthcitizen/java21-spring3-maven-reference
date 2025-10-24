@@ -1,0 +1,18 @@
+{
+  "messageId": "asdf321",
+  "messageType": "notification",
+  "data": {
+    "eventType": "OBJECT_FINALIZE",
+    "bucket": "my-bucket",
+    "object": "path/to/my-object.txt",
+    "generation": "1587627537231057",
+    "metageneration": "1",
+    "timeCreated": "2024-06-01T12:00:00.000Z",
+    "updated": "2024-06-01T12:00:00.000Z",
+    "size": "1024",
+    "contentType": "text/plain",
+    "md5Hash": "XUFAKrxLKna5cZ2REBfFkg==",
+    "mediaLink": "https://www.googleapis.com/download/storage/v1/b/my-bucket/o/path%2Fto%2Fmy-object.txt?generation=1587627537231057&alt=media",
+    "crc32c": "rTVTeQ=="
+  }
+}

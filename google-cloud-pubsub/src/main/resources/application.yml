@@ -1,3 +1,31 @@
 spring:
   application:
     name: google-cloud-pubsub
+  cloud:
+    gcp:
+      project-id: lofty-root-378503
+    stream:
+      bindings:
+        ingest-in-0:
+          destination: ${gcp.pubsub.topic.name}
+          content-type: text/plain
+          group: ${gcp.pubsub.subscription.name}
+      gcp:
+        pubsub:
+          bindings:
+            input-in-0:
+              consumer:
+                ack-mode: MANUAL
+  main:
+    allow-bean-definition-overriding: true
+
+gcp:
+  pubsub:
+    topic:
+      name: java21-spring3-maven-reference-topic
+    subscription:
+      name: java21-spring3-maven-reference-subscription
+    role:
+      name: roles/pubsub.editor
+    ordering-key: test-ordering-key
+    max-retries: 5
