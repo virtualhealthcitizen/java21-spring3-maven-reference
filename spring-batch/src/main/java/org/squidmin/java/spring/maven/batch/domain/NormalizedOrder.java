@@ -1,16 +1,15 @@
 package org.squidmin.java.spring.maven.batch.domain;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "normalized_orders")
-@Setter
-@Getter
 public class NormalizedOrder {
 
     @Id
@@ -47,8 +46,6 @@ public class NormalizedOrder {
         this.createdAt = createdAt;
         this.cancelled = cancelled;
     }
-
-    // getters/setters omitted for brevity
 
     public Long getId() { return id; }
 
