@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: google-cloud-storage
+  cloud:
+    gcp:
+      project-id: lofty-root-378503
+
+gcs:
+  filename: test_upload_file
+  bucket:
+    name: lofty_root_test_bucket
