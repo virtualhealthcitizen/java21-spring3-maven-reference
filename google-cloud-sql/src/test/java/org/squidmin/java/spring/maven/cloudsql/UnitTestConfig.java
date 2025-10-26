@@ -10,9 +10,9 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public class UnitTestConfig {
 
-    @Bean
-    public GoogleCredentials googleCredentials() {
-        return Mockito.mock(GoogleCredentials.class);
-    }
+//    @Bean
+//    public GoogleCredentials googleCredentials() {
+//        return Mockito.mock(GoogleCredentials.class);
+//    }
 
 }
