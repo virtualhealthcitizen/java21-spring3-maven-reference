@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.squidmin.java.spring.maven.gcs.GcsModuleTestUtil;
-import org.squidmin.java.spring.maven.gcs.dto.ExampleUploadItem;
+import org.squidmin.java.spring.maven.gcs.entity.ExampleEntity;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ public class AvroUtilTest {
 
     @Test
     void serializeToAvro_shouldSerializeCorrectly() throws Exception {
-        ExampleUploadItem item = new ExampleUploadItem("123", "2023-01-01", "2023-01-02", "valA", "valB");
-        List<ExampleUploadItem> items = List.of(item);
+        ExampleEntity item = new ExampleEntity("123", "2023-01-01", "2023-01-02", "valA", "valB");
+        List<ExampleEntity> items = List.of(item);
 
         byte[] avroBytes = avroUtil.serializeToAvro(items);
 

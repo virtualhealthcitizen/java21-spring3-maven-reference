@@ -12,8 +12,8 @@ import org.mockito.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.squidmin.java.spring.maven.gcs.GcsModuleTestUtil;
 import org.squidmin.java.spring.maven.gcs.config.GcsConfig;
-import org.squidmin.java.spring.maven.gcs.dto.ExampleRequest;
-import org.squidmin.java.spring.maven.gcs.dto.ExampleUploadItem;
+import org.squidmin.java.spring.maven.gcs.dto.FileUploadRequest;
+import org.squidmin.java.spring.maven.gcs.entity.ExampleEntity;
 import org.squidmin.java.spring.maven.gcs.util.AvroUtil;
 
 import java.lang.reflect.Field;
@@ -68,8 +68,8 @@ class GcsServiceImplTest {
     void uploadAvro_shouldUploadAvroAndReturnSignedUrl() throws Exception {
         String signedUrl = "https://signed-url";
 
-        ExampleUploadItem item = new ExampleUploadItem("1", "2023-01-01T00:00:00Z", "2023-01-02T00:00:00Z", "A", "B");
-        ExampleRequest request = new ExampleRequest("test.avro", List.of(item));
+        ExampleEntity item = new ExampleEntity("1", "2023-01-01T00:00:00Z", "2023-01-02T00:00:00Z", "A", "B");
+        FileUploadRequest request = new FileUploadRequest("test.avro", List.of(item));
 
         Blob mockBlob = Mockito.mock(Blob.class);
         byte[] mockAvroBytes = new byte[]{1, 2, 3}; // Mocked byte array for Avro serialization

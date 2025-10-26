@@ -1,0 +1,24 @@
+meta {
+  name: /batch-update-gcs-metadata
+  type: http
+  seq: 12
+}
+
+post {
+  url: http://localhost:8080/gcs/batch-update-gcs-metadata
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  ~Authorization: Bearer {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {}
+}
+
+settings {
+  encodeUrl: true
+}
