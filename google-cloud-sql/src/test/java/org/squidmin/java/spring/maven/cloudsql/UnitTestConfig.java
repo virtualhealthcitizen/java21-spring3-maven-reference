@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.pubsub;
+package org.squidmin.java.spring.maven.cloudsql;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import org.mockito.Mockito;
