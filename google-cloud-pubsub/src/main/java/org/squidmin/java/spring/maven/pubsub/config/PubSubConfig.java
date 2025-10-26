@@ -52,7 +52,4 @@ public class PubSubConfig {
         return maxRetries;
     }
 
-//    @Bean
-//    public PubSubSubscriber
-
 }
