@@ -1,0 +1,84 @@
+meta {
+  name: /batch-upload
+  type: http
+  seq: 13
+}
+
+post {
+  url: http://localhost:8080/gcs/batch-upload
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  ~Authorization: Bearer {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+    "fileUploadRequests": [
+      {
+        "filename": "test-file15",
+        "uploadItems": [
+          {
+            "id": "af-24",
+            "creation_timestamp": "2013-06-24T00:00:00",
+            "last_update_timestamp": "2015-04-20T00:00:00",
+            "column_a": "column_a_val_1",
+            "column_b": "column_b_val_1"
+          },
+          {
+            "id": "af-35",
+            "creation_timestamp": "2013-06-24T00:00:00",
+            "last_update_timestamp": "2015-04-20T00:00:00",
+            "column_a": "column_a_val_2",
+            "column_b": "column_b_val_2"
+          },
+          {
+            "id": "26",
+            "creation_timestamp": "2013-06-24T00:00:00",
+            "last_update_timestamp": "2015-04-20T00:00:00",
+            "column_a": "column_a_val_3",
+            "column_b": "column_b_val_3"
+          }
+        ]
+      },
+      {
+        "filename": "test-file16",
+        "uploadItems": [
+          {
+            "id": "af-134",
+            "creation_timestamp": "2013-06-24T00:00:00",
+            "last_update_timestamp": "2015-04-20T00:00:00",
+            "column_a": "column_a_val_1",
+            "column_b": "column_b_val_1"
+          },
+          {
+            "id": "asd-12",
+            "creation_timestamp": "2013-06-24T00:00:00",
+            "last_update_timestamp": "2015-04-20T00:00:00",
+            "column_a": "column_a_val_2",
+            "column_b": "column_b_val_2"
+          }
+        ]
+      },
+      {
+        "filename": "test-file17",
+        "uploadItems": [
+          {
+            "id": "as-15",
+            "creation_timestamp": "2013-06-24T00:00:00",
+            "last_update_timestamp": "2015-04-20T00:00:00",
+            "column_a": "column_a_val_2",
+            "column_b": "column_b_val_2"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

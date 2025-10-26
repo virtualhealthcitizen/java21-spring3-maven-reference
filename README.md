@@ -1,5 +1,7 @@
 # java21-spring3-maven-reference
 
+[![Java CI with Maven (multi-job)](https://github.com/squidmin/java21-spring3-maven-reference/actions/workflows/ci.yml/badge.svg?event=pull_request)](https://github.com/squidmin/java21-spring3-maven-reference/actions/workflows/ci.yml)
+
 ## Prerequisites
 
 - Java 21

@@ -4,8 +4,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.squidmin.java.spring.maven.gcs.dto.ExampleRequest;
-import org.squidmin.java.spring.maven.gcs.dto.ExampleResponse;
+import org.squidmin.java.spring.maven.gcs.dto.BatchFileUploadRequest;
+import org.squidmin.java.spring.maven.gcs.dto.BatchFileUploadResponse;
+import org.squidmin.java.spring.maven.gcs.dto.FileUploadRequest;
+import org.squidmin.java.spring.maven.gcs.dto.FileUploadResponse;
 import org.squidmin.java.spring.maven.gcs.service.impl.GcsServiceImpl;
 
 import java.io.IOException;
@@ -26,17 +28,37 @@ public class GcsController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ExampleResponse> uploadFile(@RequestBody ExampleRequest request) throws IOException {
+    public ResponseEntity<FileUploadResponse> uploadFile(@RequestBody FileUploadRequest request) throws IOException {
         URL url = gcsServiceImpl.uploadAvro(request.getFilename(), request);
-        return ResponseEntity.ok(ExampleResponse.builder().url(url).build());
+        return ResponseEntity.ok(FileUploadResponse.builder().url(url).build());
+    }
+
+    @PostMapping(
+        value = "/batch-upload",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<BatchFileUploadResponse> batchUpload(@RequestBody BatchFileUploadRequest request) {
+        BatchFileUploadResponse res = gcsServiceImpl.batchUpload(request);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping(
+        value = "/batch-update-gcs-metadata",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<BatchFileUploadResponse> batchUpdateGcsMetadata() {
+        BatchFileUploadResponse res = gcsServiceImpl.batchUpdateGcsMetadata();
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/download")
-    public ResponseEntity<ExampleResponse> downloadFile(@RequestParam String filename) {
+    public ResponseEntity<FileUploadResponse> downloadFile(@RequestParam String filename) {
         URL url = gcsServiceImpl.downloadAvro(filename);
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-            .body(ExampleResponse.builder().url(url).build());
+            .body(FileUploadResponse.builder().url(url).build());
     }
 
 }

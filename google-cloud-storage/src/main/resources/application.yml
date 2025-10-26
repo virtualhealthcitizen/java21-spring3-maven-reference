@@ -13,5 +13,7 @@ management:
 
 gcp:
   storage:
+    gcs-prefix: gs://
     bucket:
+      batch-upload-prefix: batch_uploads/
       name: jm_lofty-root-cmek-test
