@@ -4,6 +4,20 @@ spring:
   cloud:
     gcp:
       project-id: lofty-root-378503
+    stream:
+      bindings:
+        ingest-in-0:
+          destination: ${gcp.pubsub.topic.name}
+          content-type: text/plain
+          group: ${gcp.pubsub.subscription.name}
+      gcp:
+        pubsub:
+          bindings:
+            input-in-0:
+              consumer:
+                ack-mode: MANUAL
+  main:
+    allow-bean-definition-overriding: true
 
 gcp:
   pubsub:
