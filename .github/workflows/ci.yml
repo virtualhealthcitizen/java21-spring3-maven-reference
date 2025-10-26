@@ -10,6 +10,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis:latest
+        ports: [ "6379:6379" ]
+        # Healthcheck so dependent steps wait until ready
+        options: >-
+          --health-cmd "redis-cli ping || exit 1"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: session_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports: [ "5432:5432" ]
+        # Healthcheck so we can safely run psql next
+        options: >-
+          --health-cmd "pg_isready -U postgres -d session_db"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+
     steps:
       - uses: actions/checkout@v5
 
@@ -23,6 +48,66 @@ jobs:
       - name: Grant execute permission for mvnw
         run: chmod +x ./mvnw
 
-      - name: Build with Maven
+      - name: Install Postgres client
         run: |
-          ./mvnw clean package -Dspring.profiles.active=test
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Wait for Redis (defensive)
+        run: |
+          for i in {1..30}; do
+            if echo PING | nc -w 1 localhost 6379 | grep -q PONG; then
+              echo "Redis is up"
+              exit 0
+            fi
+            echo "Waiting for Redis..."
+            sleep 1
+          done
+          echo "Redis did not become healthy in time"
+          exit 1
+
+      - name: Create Spring Session tables in Postgres
+        env:
+          PGPASSWORD: password
+        run: |
+          # Wait for Postgres (defensive even with healthcheck)
+          until pg_isready -h localhost -p 5432 -U postgres -d session_db; do
+            echo "Waiting for Postgres..."
+            sleep 2
+          done
+          psql "host=localhost port=5432 user=postgres dbname=session_db" <<'SQL'
+          DROP TABLE IF EXISTS SPRING_SESSION_ATTRIBUTES;
+          DROP TABLE IF EXISTS SPRING_SESSION;
+
+          CREATE TABLE IF NOT EXISTS SPRING_SESSION
+          (
+              PRIMARY_ID            CHAR(36) NOT NULL,
+              SESSION_ID            CHAR(36) NOT NULL,
+              CREATION_TIME         BIGINT   NOT NULL,
+              LAST_ACCESS_TIME      BIGINT   NOT NULL,
+              MAX_INACTIVE_INTERVAL INT      NOT NULL,
+              EXPIRY_TIME           BIGINT   NOT NULL,
+              PRINCIPAL_NAME        VARCHAR(100),
+              CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
+          );
+
+          CREATE UNIQUE INDEX IF NOT EXISTS SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
+          CREATE INDEX IF NOT EXISTS SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
+          CREATE INDEX IF NOT EXISTS SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
+
+          CREATE TABLE IF NOT EXISTS SPRING_SESSION_ATTRIBUTES (
+            SESSION_PRIMARY_ID CHAR(36) NOT NULL,
+            ATTRIBUTE_NAME VARCHAR(200) NOT NULL,
+            ATTRIBUTE_BYTES BYTEA NOT NULL,
+            CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
+            CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID)
+              REFERENCES SPRING_SESSION(PRIMARY_ID) ON DELETE CASCADE
+          );
+          SQL
+
+      - name: Show Postgres logs (verification)
+        run: |
+          docker logs ${{ job.services.postgres.id }} --since=10m || true
+
+      - name: Build with Maven (test profile)
+        run: ./mvnw clean package -Dspring.profiles.active=test
