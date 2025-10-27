@@ -4,7 +4,6 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ImpersonatedCredentials;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Configuration
-@Getter
 @Slf4j
 public class GcsConfig {
 
@@ -62,6 +60,30 @@ public class GcsConfig {
             .setCredentials(saCreds)
             .build()
             .getService();
+    }
+
+    public String getGcsPrefix() {
+        return gcsPrefix;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public String getBatchUploadPrefix() {
+        return batchUploadPrefix;
+    }
+
+    public String getImpersonationTarget() {
+        return impersonationTarget;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getGkmsKeyName() {
+        return gkmsKeyName;
     }
 
 }
