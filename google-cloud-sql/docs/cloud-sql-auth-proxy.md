@@ -1,10 +1,23 @@
 # Cloud SQL Auth Proxy
 
-### Set instance connection name
+### Set environment variables
 
 ```bash
+export CREDENTIALS_PATH="/Users/admin/.config/gcloud/sa-private-key.json"
+export GOOGLE_APPLICATION_CREDENTIALS="$CREDENTIALS_PATH"
+export TF_VAR_project_id=$(gcloud config get-value project)
+export TF_VAR_region="us-central1"
+export TF_VAR_authorized_cidr="$(curl -4 -s ifconfig.me)/32"
+export TF_VAR_db_user=username
+export TF_VAR_db_password=password
+export TF_VAR_db_name=jm_demo_db
 export INSTANCE_CONNECTION_NAME="lofty-root-378503:us-central1:jm-pg-demo"
+export PGPASSWORD="$TF_VAR_db_password"
 ```
+
+### Provision DB infrastructure
+
+Use Terraform or `gcloud` to create the Cloud SQL Postgres instance.
 
 ### Run the CloudSQL auth proxy
 
@@ -28,8 +41,6 @@ PROXY_PID=$!
 #### Docker
 
 ```bash
-
-export CREDENTIALS_PATH="/Users/admin/.config/gcloud/sa-private-key.json"
 docker run -d --name csql-proxy -p 127.0.0.1:5400:5432 \
   -v "$GOOGLE_APPLICATION_CREDENTIALS:/creds/key.json:ro" \
   gcr.io/cloud-sql-connectors/cloud-sql-proxy:2 \
@@ -89,12 +100,6 @@ for p in {5400..5450}; do (lsof -iTCP:$p -sTCP:LISTEN >/dev/null) || { echo "Fir
 
 ### Test connection
 
-```bash
-export TF_VAR_db_user=username
-export TF_VAR_db_password=password
-export TF_VAR_db_name=jm_demo_db
-```
-
 Have the proxy running and healthy to `127.0.0.1:5432`.
 Make sure nothing else is using port `5432`.
 If it is, pick another port (e.g., 5433) and update your `psql` command.
@@ -110,7 +115,7 @@ PGPASSWORD="$TF_VAR_db_password" psql \
 
 ### If the test is successful
 
-Assuming the file `/src/test/resources/init.sql` exists:
+Create the table from file contents. For example, assuming `/src/test/resources/init.sql` exists:
 
 ```bash
 PGPASSWORD="$TF_VAR_db_password" psql \
@@ -204,6 +209,10 @@ DROP TABLE widgets;
 ```
 
 ### Exit `psql`
+
+```psql
+\q
+```
 
 ```psql
 exit

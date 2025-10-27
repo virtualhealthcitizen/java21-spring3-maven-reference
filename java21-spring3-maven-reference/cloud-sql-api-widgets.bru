@@ -1,0 +1,19 @@
+meta {
+  name: /cloud-sql/api/widgets
+  type: http
+  seq: 13
+}
+
+get {
+  url: http://localhost:8080/cloud-sql/api/widgets?q=Test Widget
+  body: none
+  auth: inherit
+}
+
+params:query {
+  q: Test Widget
+}
+
+settings {
+  encodeUrl: true
+}
