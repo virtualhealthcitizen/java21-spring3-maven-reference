@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "Widget",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "createdAt", "type": "string" },
+    { "name": "updatedAt", "type": "string" },
+    { "name": "meta", "type": "record" }
+  ]
+}

@@ -1,6 +1,9 @@
 spring:
   application:
     name: case-study-1
+  cloud:
+    gcp:
+      project-id: lofty-root-378503
   session:
     store-type: jdbc # Use JDBC for session management
     jdbc:
@@ -29,6 +32,13 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+gcp:
+  storage:
+    gcs-prefix: gs://
+    bucket:
+      batch-upload-prefix: batch_uploads/
+      name: jm_lofty-root-cmek-test
 
 server:
   port: 8080

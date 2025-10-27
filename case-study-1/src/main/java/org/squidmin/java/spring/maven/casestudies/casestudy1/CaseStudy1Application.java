@@ -1,4 +1,4 @@
-package org.squidmin.java.spring.maven.casestudies;
+package org.squidmin.java.spring.maven.casestudies.casestudy1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
