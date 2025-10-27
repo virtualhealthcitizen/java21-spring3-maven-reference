@@ -13,6 +13,7 @@
     <groupId>org.squidmin.java.spring.maven.cloudsql</groupId>
     <artifactId>google-cloud-sql</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>google-cloud-sql</name>
     <description>google-cloud-sql</description>
     <url/>

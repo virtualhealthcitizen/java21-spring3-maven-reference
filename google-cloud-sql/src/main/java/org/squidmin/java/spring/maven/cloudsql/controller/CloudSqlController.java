@@ -13,7 +13,7 @@ public class CloudSqlController {
     public CloudSqlController() {}
 
     @GetMapping(
-        value = "/placeholder",
+        value = "/insert-rows",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
