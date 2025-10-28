@@ -9,10 +9,10 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.Message;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.squidmin.java.spring.maven.casestudies.casestudy1.io.GcsAvroWriter;
-import org.squidmin.java.spring.maven.casestudies.casestudy1.io.PubSubMessageReader;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.domain.Widget;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.io.GcsWriter;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.io.PostgresReader;
 
 @Configuration
 @EnableBatchProcessing
@@ -28,11 +28,11 @@ public class BatchConfig {
     }
 
     @Bean
-    public Step pubSubToGcsStep(PubSubMessageReader reader,
-                                ItemProcessor<Message<String>, byte[]> processor,
-                                GcsAvroWriter writer) {
-        return new StepBuilder("pubSubToGcsStep", jobRepository)
-            .<Message<String>, byte[]>chunk(10, transactionManager)
+    public Step postgresToGcsStep(PostgresReader reader,
+                                  ItemProcessor<Widget, byte[]> processor,
+                                  GcsWriter writer) {
+        return new StepBuilder("postgresToGcsStep", jobRepository)
+            .<Widget, byte[]>chunk(10, transactionManager)
             .reader(reader)
             .processor(processor)
             .writer(writer)
@@ -40,9 +40,9 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job pubSubToGcsJob(Step pubSubToGcsStep) {
-        return new JobBuilder("pubSubToGcsJob", jobRepository)
-            .start(pubSubToGcsStep)
+    public Job postgresToGcsJob(Step postgresToGcsStep) {
+        return new JobBuilder("postgresToGcsJob", jobRepository)
+            .start(postgresToGcsStep)
             .build();
     }
 

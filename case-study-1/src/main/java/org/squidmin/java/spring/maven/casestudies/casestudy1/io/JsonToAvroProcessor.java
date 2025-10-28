@@ -1,17 +1,13 @@
 package org.squidmin.java.spring.maven.casestudies.casestudy1.io;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.domain.Widget;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.util.AvroUtil;
 
-import java.util.List;
-
 @Component
-public class JsonToAvroProcessor implements ItemProcessor<Message<String>, byte[]> {
+public class JsonToAvroProcessor implements ItemProcessor<Widget, byte[]> {
 
     private final AvroUtil avroUtil;
     private final ObjectMapper objectMapper;
@@ -22,9 +18,9 @@ public class JsonToAvroProcessor implements ItemProcessor<Message<String>, byte[
     }
 
     @Override
-    public byte[] process(Message<String> item) throws Exception {
-        List<Widget> widgets = objectMapper.readValue(item.getPayload(), new TypeReference<>() {});
-        return avroUtil.serializeToAvro(widgets);
+    public byte[] process(Widget item) {
+        // Convert widget to Avro format
+        return null;
     }
 
 }
