@@ -1,6 +1,11 @@
 spring:
   application:
     name: case-study-1
+  batch:
+    jdbc:
+      initialize-schema: always  # Ensures Spring Batch schema is created on startup
+#    job:
+#      enabled: false
   cloud:
     gcp:
       project-id: lofty-root-378503
@@ -44,8 +49,8 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  main:
-    allow-bean-definition-overriding: true
+#  main:
+#    allow-bean-definition-overriding: true
 
 gcp:
   storage:

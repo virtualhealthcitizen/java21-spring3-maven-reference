@@ -26,21 +26,26 @@ public class Widget {
     @Column(name = "created_at", columnDefinition = "timestamptz", updatable = false, insertable = false)
     private Instant createdAt;
 
-    @Column(name = "updated_at", columnDefinition = "timestamptz", updatable = false, insertable = false)
-    private Instant updatedAt;
-
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "meta", columnDefinition = "jsonb")
     private Map<String, Object> meta;
 
     public Widget() {}
 
+    public Widget(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Widget(UUID id, String name, Instant createdAt, Map<String, Object> meta) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.meta = meta;
+    }
+
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
-
-    public Instant getUpdatedAt() { return updatedAt; }
-
-    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

@@ -39,7 +39,6 @@ public class AvroUtil {
             GenericRecord record = new GenericData.Record(schema);
             record.put("id", item.getId());
             record.put("createdAt", item.getCreatedAt());
-            record.put("updatedAt", item.getUpdatedAt());
             record.put("name", item.getName());
             record.put("meta", item.getMeta());
             dataFileWriter.append(record);
