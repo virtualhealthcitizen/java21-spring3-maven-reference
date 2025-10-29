@@ -3,8 +3,8 @@
   "name": "Widget",
   "fields": [
     { "name": "id", "type": "string" },
+    { "name": "name", "type": "string" },
     { "name": "createdAt", "type": "string" },
-    { "name": "updatedAt", "type": "string" },
     { "name": "meta", "type": "record" }
   ]
 }

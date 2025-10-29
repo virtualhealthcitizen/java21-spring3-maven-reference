@@ -21,7 +21,11 @@ import java.util.UUID;
 @Component
 public class PostgresReader {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+
+    public PostgresReader() {
+        this.objectMapper = new ObjectMapper();
+    }
 
     @Bean
     public JdbcPagingItemReader<Widget> widgetReader(DataSource dataSource) {
@@ -43,6 +47,7 @@ public class PostgresReader {
         return provider;
     }
 
+    @SuppressWarnings("unchecked")
     private RowMapper<Widget> widgetRowMapper() {
         return (ResultSet rs, int rowNum) -> {
             UUID id = (UUID) rs.getObject("id");

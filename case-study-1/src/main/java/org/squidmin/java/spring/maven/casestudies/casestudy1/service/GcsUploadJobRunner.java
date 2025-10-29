@@ -5,8 +5,12 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@ConditionalOnProperty(name = "app.jobs.enabled", havingValue = "true", matchIfMissing = false)
+@Profile("!test")
 @Component
 public class GcsUploadJobRunner implements CommandLineRunner {
 

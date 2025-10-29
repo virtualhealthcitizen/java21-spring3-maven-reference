@@ -50,11 +50,11 @@ class BatchJobIntegrationTest {
     }
 
     @Autowired
-    JdbcTemplate jdbc;
+    private JdbcTemplate jdbc;
     @Autowired
-    Job normalizeWidgetsJob;
+    private Job normalizeWidgetsJob;
     @Autowired
-    JobLauncherTestUtils jobLauncherTestUtils;
+    private JobLauncherTestUtils jobLauncherTestUtils;
 
     @BeforeEach
     void setupSchemaAndData() {

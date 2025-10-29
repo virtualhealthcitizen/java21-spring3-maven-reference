@@ -21,10 +21,6 @@ spring:
             input-in-0:
               consumer:
                 ack-mode: MANUAL
-  session:
-    store-type: jdbc # Use JDBC for session management
-    jdbc:
-      initialize-schema: always # Ensures schema.sql runs on startup (use 'never' in production)
   test:
     database:
       replace: none # Prevents Spring Boot from replacing the datasource with an in-memory database during tests
@@ -73,3 +69,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+app:
+  jobs:
+    enabled: true

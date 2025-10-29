@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: case-study-1
+  batch:
+    job:
+      enabled: false
+
+app:
+  jobs:
+    enabled: false
