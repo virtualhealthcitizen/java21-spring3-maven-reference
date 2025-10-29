@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 @SpringBatchTest
 public class PostgresToGcsJobIntegrationTest {
@@ -37,10 +35,10 @@ public class PostgresToGcsJobIntegrationTest {
         var exec = jobLauncherTestUtils.launchJob(jobParameters);
         Assertions.assertThat(exec.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
         StepExecution step = exec.getStepExecutions().iterator().next();
-        assertThat(step.getReadCount()).isEqualTo(4);
-        assertThat(step.getFilterCount()).isEqualTo(0);
-        assertThat(step.getSkipCount()).isEqualTo(0);
-        assertThat(step.getWriteCount()).isEqualTo(4);
+        Assertions.assertThat(step.getReadCount()).isEqualTo(4);
+        Assertions.assertThat(step.getFilterCount()).isEqualTo(0);
+        Assertions.assertThat(step.getSkipCount()).isEqualTo(0);
+        Assertions.assertThat(step.getWriteCount()).isEqualTo(4);
     }
 
 }

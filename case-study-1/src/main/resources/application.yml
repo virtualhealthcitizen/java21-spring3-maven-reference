@@ -3,9 +3,9 @@ spring:
     name: case-study-1
   batch:
     jdbc:
-      initialize-schema: always  # Ensures Spring Batch schema is created on startup
+      initialize-schema: always  # Ensures Spring Batch schema is created on startup.
 #    job:
-#      enabled: false
+#      enabled: false # Disable automatic job execution on startup
   cloud:
     gcp:
       project-id: lofty-root-378503
@@ -23,7 +23,7 @@ spring:
                 ack-mode: MANUAL
   test:
     database:
-      replace: none # Prevents Spring Boot from replacing the datasource with an in-memory database during tests
+      replace: none # Prevents Spring Boot from replacing the datasource with an in-memory database during tests.
   security:
     user:
       name: admin
@@ -35,8 +35,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: always  # Ensures schema.sql runs on startup (use 'never' in production)
-      platform: postgres # Prevents Hibernate from overriding the jsonb data type with varchar data type.
+      mode: always  # Ensures schema.sql runs on startup (use 'never' in production).
+      platform: postgres  # Prevents Hibernate from overriding the jsonb data type with varchar data type.
   jpa:
     hibernate:
       ddl-auto: update
