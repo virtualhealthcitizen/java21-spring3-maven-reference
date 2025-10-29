@@ -29,11 +29,13 @@ public class NormalizedWidget {
     protected NormalizedWidget() {}
 
     public NormalizedWidget(Long id,
+                            String name,
                             String externalId,
                             OffsetDateTime createdAt,
                             boolean cancelled) {
 
         this.id = id;
+        this.name = name;
         this.externalOrderId = externalId;
         this.createdAt = createdAt;
         this.cancelled = cancelled;
@@ -42,6 +44,8 @@ public class NormalizedWidget {
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
 
     public String getExternalOrderId() { return externalOrderId; }
 

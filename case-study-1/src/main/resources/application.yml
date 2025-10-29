@@ -54,6 +54,15 @@ gcp:
     bucket:
       batch-upload-prefix: batch_uploads/
       name: jm_lofty-root-cmek-test
+  pubsub:
+    topic:
+      name: java21-spring3-maven-reference-topic
+    subscription:
+      name: java21-spring3-maven-reference-subscription
+    role:
+      name: roles/pubsub.editor
+    ordering-key: test-ordering-key
+    max-retries: 5
 
 server:
   port: 8080

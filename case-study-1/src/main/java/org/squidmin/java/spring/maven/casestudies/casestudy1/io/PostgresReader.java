@@ -30,6 +30,7 @@ public class PostgresReader {
     @Bean
     public JdbcPagingItemReader<Widget> widgetReader(DataSource dataSource) {
         var reader = new JdbcPagingItemReader<Widget>();
+        reader.setName("widgetReader");
         reader.setDataSource(dataSource);
         reader.setPageSize(500);
         reader.setRowMapper(widgetRowMapper());

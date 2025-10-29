@@ -32,6 +32,7 @@ public class JsonToAvroProcessor implements ItemProcessor<Widget, NormalizedWidg
         // Convert widget to Avro format
         return new NormalizedWidget(
             new Random().nextLong(1000),
+            in.getName(),
             UUID.randomUUID().toString(),
             LocalDateTime.now().atOffset(ZoneOffset.UTC),
             false
