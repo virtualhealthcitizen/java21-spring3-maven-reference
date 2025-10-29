@@ -71,9 +71,9 @@ public class BatchJobConfig {
             .<Widget, NormalizedWidget>chunk(500, txManager) // Process 500 items per chunk
             .reader(widgetReader)                         // Read items from the database
             .processor(processor)                         // Process items (normalize data)
-            .writer(widgetCompositeWriter)                // Write to DB and CSV
+            .writer(widgetCompositeWriter)                // Write to DB
             .faultTolerant()
-            .skipPolicy(skipPolicy)                       // Skip invalid rows (e.g., missing currency)
+            .skipPolicy(skipPolicy)                       // Skip invalid rows (e.g., missing field)
             .retryLimit(5)                                // Retry transient errors up to 3 times
             .retry(ConcurrencyFailureException.class)     // Retry on database lock issues
             .listener(stepLoggerListener)                 // Log step execution details
