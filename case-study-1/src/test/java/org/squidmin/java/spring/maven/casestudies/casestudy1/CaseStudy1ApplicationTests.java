@@ -16,10 +16,18 @@ import org.squidmin.java.spring.maven.casestudies.casestudy1.config.*;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.controller.WidgetController;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.domain.NormalizedWidget;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.domain.Widget;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.io.GcsWriter;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.io.JsonToAvroProcessor;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.io.PostgresReader;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.listeners.JobLoggerListener;
 import org.squidmin.java.spring.maven.casestudies.casestudy1.listeners.StepLoggerListener;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.policies.TransientSkips;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.repository.WidgetRepository;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.repository.impl.GcsRepositoryImpl;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.service.WidgetService;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.service.impl.GcsServiceImpl;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.subscribe.ExampleSubscriber;
+import org.squidmin.java.spring.maven.casestudies.casestudy1.util.AvroUtil;
 
 import javax.sql.DataSource;
 import java.time.Instant;
@@ -53,39 +61,52 @@ class CaseStudy1ApplicationTests {
         Assertions.assertNotNull(skipPolicies);
 
         Validators validators = context.getBean(Validators.class);
-        Assertions.assertNotNull(validators);
-        Validator validator = validators.validator();
-        Assertions.assertNotNull(validator);
-        ExecutableValidator executableValidator = validator.forExecutables();
-        Assertions.assertNotNull(executableValidator);
+        validateValidators(validators);
 
         WidgetController widgetController = context.getBean(WidgetController.class);
         Assertions.assertNotNull(widgetController);
 
         PostgresReader postgresReader = context.getBean(PostgresReader.class);
-        Assertions.assertNotNull(postgresReader);
-        JdbcPagingItemReader<Widget> widgetJdbcPagingItemReader = postgresReader.widgetReader(dataSource);
-        Assertions.assertNotNull(widgetJdbcPagingItemReader);
-        Assertions.assertEquals("widgetReader", widgetJdbcPagingItemReader.getName());
+        validatePostgresReader(postgresReader);
 
         JsonToAvroProcessor jsonToAvroProcessor = context.getBean(JsonToAvroProcessor.class);
-        Assertions.assertNotNull(jsonToAvroProcessor);
-        NormalizedWidget testWidget = jsonToAvroProcessor.process(
-            new Widget(
-                UUID.randomUUID(),
-                "Test Widget",
-                Instant.now(),
-                new HashMap<>()
-            )
-        );
-        Assertions.assertNotNull(testWidget);
-        Assertions.assertEquals("Test Widget", testWidget.getName());
+        validateJsonToAvroProcessor(jsonToAvroProcessor);
+
+        GcsWriter gcsWriter = context.getBean(GcsWriter.class);
+        Assertions.assertNotNull(gcsWriter);
 
         JobLoggerListener jobLoggerListener = context.getBean(JobLoggerListener.class);
         Assertions.assertNotNull(jobLoggerListener);
 
         StepLoggerListener stepLoggerListener = context.getBean(StepLoggerListener.class);
         Assertions.assertNotNull(stepLoggerListener);
+
+        SkipPolicies.TransientSkips transientSkips = context.getBean(SkipPolicies.TransientSkips.class);
+        Assertions.assertNotNull(transientSkips);
+
+        TransientSkips _transientSkips = context.getBean(TransientSkips.class);
+        Assertions.assertNotNull(_transientSkips);
+
+        AvroUtil avroUtil = context.getBean(AvroUtil.class);
+        Assertions.assertNotNull(avroUtil);
+
+        GcsRepositoryImpl gcsRepository = context.getBean(GcsRepositoryImpl.class);
+        Assertions.assertNotNull(gcsRepository);
+
+        GcsServiceImpl gcsService = context.getBean(GcsServiceImpl.class);
+        Assertions.assertNotNull(gcsService);
+
+        WidgetRepository widgetRepository = context.getBean(WidgetRepository.class);
+        Assertions.assertNotNull(widgetRepository);
+
+        WidgetService widgetService = context.getBean(WidgetService.class);
+        Assertions.assertNotNull(widgetService);
+
+        WidgetController controller = context.getBean(WidgetController.class);
+        Assertions.assertNotNull(controller);
+
+        ExampleSubscriber exampleSubscriber = context.getBean(ExampleSubscriber.class);
+        Assertions.assertNotNull(exampleSubscriber);
     }
 
     private void validateBatchJobConfig(BatchJobConfig batchJobConfig) {
@@ -112,6 +133,35 @@ class CaseStudy1ApplicationTests {
         Assertions.assertEquals("roles/pubsub.editor", pubSubConfig.getRole());
         Assertions.assertEquals("test-ordering-key", pubSubConfig.getOrderingKey());
         Assertions.assertEquals("5", pubSubConfig.getMaxRetries());
+    }
+
+    private void validateValidators(Validators validators) {
+        Assertions.assertNotNull(validators);
+        Validator validator = validators.validator();
+        Assertions.assertNotNull(validator);
+        ExecutableValidator executableValidator = validator.forExecutables();
+        Assertions.assertNotNull(executableValidator);
+    }
+
+    private void validatePostgresReader(PostgresReader postgresReader) {
+        Assertions.assertNotNull(postgresReader);
+        JdbcPagingItemReader<Widget> widgetJdbcPagingItemReader = postgresReader.widgetReader(dataSource);
+        Assertions.assertNotNull(widgetJdbcPagingItemReader);
+        Assertions.assertEquals("widgetReader", widgetJdbcPagingItemReader.getName());
+    }
+
+    private void validateJsonToAvroProcessor(JsonToAvroProcessor jsonToAvroProcessor) {
+        Assertions.assertNotNull(jsonToAvroProcessor);
+        NormalizedWidget testWidget = jsonToAvroProcessor.process(
+            new Widget(
+                UUID.randomUUID(),
+                "Test Widget",
+                Instant.now(),
+                new HashMap<>()
+            )
+        );
+        Assertions.assertNotNull(testWidget);
+        Assertions.assertEquals("Test Widget", testWidget.getName());
     }
 
 }
