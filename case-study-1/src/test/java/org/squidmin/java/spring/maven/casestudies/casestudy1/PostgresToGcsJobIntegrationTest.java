@@ -24,7 +24,7 @@ public class PostgresToGcsJobIntegrationTest {
     private Job postgresToGcsJob;
 
     @Test
-    @Sql(scripts = {"/init.sql", "/insert_widgets.sql"})
+    @Sql(scripts = {"/init.sql", "/create_spring_batch_tables.sql"})
     void testBatchJob() throws Exception {
         jobRepositoryTestUtils.removeJobExecutions();
         JobParameters jobParameters = new JobParametersBuilder()
