@@ -1,16 +1,23 @@
 {
-  "id": "123e4567-e89b-12d3-a456-426614174002",
-  "name": "Nested Widget",
-  "createdAt": "2023-10-01T15:30:00Z",
-  "meta": {
-    "dimensions": {
-      "width": 10,
-      "height": 20,
-      "depth": 5
-    },
-    "manufacturer": {
-      "name": "WidgetCorp",
-      "location": "USA"
+  "eventId": "123e4567-e89b-12d3-a456-426614174000",
+  "timestamp": "2023-10-01T10:00:00Z",
+  "messageType": "WidgetTransaction",
+  "records": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174002",
+      "name": "Nested Widget",
+      "createdAt": "2023-10-01T15:30:00Z",
+      "meta": {
+        "dimensions": {
+          "width": 10,
+          "height": 20,
+          "depth": 5
+        },
+        "manufacturer": {
+          "name": "WidgetCorp",
+          "location": "USA"
+        }
+      }
     }
-  }
+  ]
 }
