@@ -1,13 +1,29 @@
 spring:
   application:
     name: case-study-1
-  session:
-    store-type: jdbc # Use JDBC for session management
+  batch:
     jdbc:
-      initialize-schema: always # Ensures schema.sql runs on startup (use 'never' in production)
+      initialize-schema: always  # Ensures Spring Batch schema is created on startup.
+#    job:
+#      enabled: false # Disable automatic job execution on startup
+  cloud:
+    gcp:
+      project-id: lofty-root-378503
+    stream:
+      bindings:
+        ingest-in-0:
+          destination: ${gcp.pubsub.topic.name}
+          content-type: text/plain
+          group: ${gcp.pubsub.subscription.name}
+      gcp:
+        pubsub:
+          bindings:
+            input-in-0:
+              consumer:
+                ack-mode: MANUAL
   test:
     database:
-      replace: none # Prevents Spring Boot from replacing the datasource with an in-memory database during tests
+      replace: none # Prevents Spring Boot from replacing the datasource with an in-memory database during tests.
   security:
     user:
       name: admin
@@ -19,8 +35,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: always  # Ensures schema.sql runs on startup (use 'never' in production)
-      platform: postgres # Prevents Hibernate from overriding the jsonb data type with varchar data type.
+      mode: always  # Ensures schema.sql runs on startup (use 'never' in production).
+      platform: postgres  # Prevents Hibernate from overriding the jsonb data type with varchar data type.
   jpa:
     hibernate:
       ddl-auto: update
@@ -29,11 +45,32 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+#  main:
+#    allow-bean-definition-overriding: true
+
+gcp:
+  storage:
+    gcs-prefix: gs://
+    bucket:
+      batch-upload-prefix: batch_uploads/
+      name: jm_lofty-root-cmek-test
+  pubsub:
+    topic:
+      name: java21-spring3-maven-reference-topic
+    subscription:
+      name: java21-spring3-maven-reference-subscription
+    role:
+      name: roles/pubsub.editor
+    ordering-key: test-ordering-key
+    max-retries: 5
 
 server:
   port: 8080
 
 management:
+  endpoint:
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
@@ -44,3 +81,7 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+app:
+  jobs:
+    enabled: true

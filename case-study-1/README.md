@@ -7,3 +7,7 @@
 - Pub/Sub client libraries
 - Cloud SQL w/ PostgreSQL
 - Cloud Run
+
+### Run application locally
+
+See [run the application locally](docs/run-application-locally.md).

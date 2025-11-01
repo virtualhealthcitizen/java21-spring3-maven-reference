@@ -1,0 +1,17 @@
+{
+  "eventId": "123e4567-e89b-12d3-a456-426614174000",
+  "timestamp": "2023-10-01T10:00:00Z",
+  "messageType": "WidgetTransaction",
+  "records": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "Custom Widget",
+      "createdAt": "2023-10-01T20:00:00Z",
+      "meta": {
+        "customField1": "value1",
+        "customField2": 42,
+        "customField3": true
+      }
+    }
+  ]
+}
