@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: google-cloud-storage-beam
+  cloud:
+    gcp:
+      project-id: lofty-root-123456
