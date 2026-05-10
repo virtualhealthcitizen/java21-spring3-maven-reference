@@ -31,3 +31,4 @@ exec java \
 -DOAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN \
 -DGKMS_KEY_NAME=$GKMS_KEY_NAME \
 -jar app.jar"]
+
