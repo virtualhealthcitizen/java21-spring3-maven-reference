@@ -171,4 +171,3 @@ jobs:
           done
       - name: Build with Maven (test profile)
         run: ./mvnw clean package -Dspring.profiles.active=test
-
