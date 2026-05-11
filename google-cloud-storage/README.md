@@ -8,7 +8,7 @@ mvn clean test \
   -DPROJECT_ID=${PROJECT_ID}
 ```
 
-![05_run_tests_1.gif](docs%2Fimg%2F05_run_tests_1.gif)
+![Run tests](docs%2Fimg%2F05_run_tests_1.gif)
 
 ## Run application
 
